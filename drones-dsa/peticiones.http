@@ -1,0 +1,59 @@
+### 1. Anadir piloto
+POST http://localhost:8080/dsa/pilots
+Content-Type: application/json
+
+{ "id": "P01", "nombre": "Eric", "apellidos": "Lopez" }
+
+### 2. Anadir dron
+POST http://localhost:8080/dsa/drones
+Content-Type: application/json
+
+{ "id": "D01", "nombre": "Halcon", "fabricante": "DJI", "modelo": "Mavic 3" }
+
+### 3. Anadir otro dron
+POST http://localhost:8080/dsa/drones
+Content-Type: application/json
+
+{ "id": "D02", "nombre": "Aguila", "fabricante": "Parrot", "modelo": "Anafi" }
+
+### 4. Crear plan de vuelo (201)
+POST http://localhost:8080/dsa/flightplans
+Content-Type: application/json
+
+{
+  "idDrone": "D01",
+  "idPilot": "P01",
+  "fecha": "2026-11-10T10:00",
+  "horas": 2,
+  "posiciones": [
+    { "latitude": 41.275, "longitude": 1.987 },
+    { "latitude": 41.280, "longitude": 1.990 }
+  ]
+}
+
+### 5. Mismo plan otra vez (409 conflicto)
+POST http://localhost:8080/dsa/flightplans
+Content-Type: application/json
+
+{
+  "idDrone": "D01",
+  "idPilot": "P01",
+  "fecha": "2026-11-10T11:00",
+  "horas": 1,
+  "posiciones": []
+}
+
+### 6. Listado de drones ordenados por horas
+GET http://localhost:8080/dsa/drones
+
+### 7. Planes de un piloto
+GET http://localhost:8080/dsa/pilots/P01/flightplans
+
+### 8. Planes de un dron
+GET http://localhost:8080/dsa/drones/D01/flightplans
+
+### 9. Guardar dron en el almacen
+POST http://localhost:8080/dsa/warehouse/D02
+
+### 10. Reparar dron del almacen
+PUT http://localhost:8080/dsa/warehouse/repair
